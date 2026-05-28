@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — TravelBlog India</title>
+  <meta name="description" content="Get in touch with TravelBlog India. We're here to help plan your perfect trip across India.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    .contact-hero { padding: 130px 5% 60px; text-align:center; position:relative; overflow:hidden; }
+    .contact-hero::before {
+      content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+      width:800px; height:500px;
+      background:radial-gradient(ellipse, rgba(0,201,167,0.07) 0%, transparent 65%);
+      pointer-events:none;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 40px;
+      padding: 0 5% 80px;
+      align-items: start;
+    }
+
+    /* Contact Info Card */
+    .contact-info-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .contact-info-top {
+      background: linear-gradient(135deg, rgba(245,166,35,0.15), rgba(0,150,199,0.1));
+      padding: 36px;
+      position: relative;
+    }
+
+    .contact-info-top::after {
+      content:''; position:absolute; bottom:-20px; left:0; right:0;
+      height:40px;
+      background:var(--bg-card);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+
+    .contact-info-top h2 {
+      font-family:'Playfair Display', serif;
+      font-size:1.8rem; margin-bottom:10px;
+    }
+
+    .contact-info-top p { color:var(--text-secondary); font-size:0.9rem; }
+
+    .contact-info-body { padding: 36px 36px 30px; }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .contact-icon {
+      width: 46px; height: 46px;
+      border-radius: 12px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    .contact-icon.phone { background:rgba(245,166,35,0.12); border:1px solid rgba(245,166,35,0.2); color:var(--accent); }
+    .contact-icon.email { background:rgba(0,201,167,0.1); border:1px solid rgba(0,201,167,0.2); color:var(--teal); }
+    .contact-icon.location { background:rgba(231,76,60,0.1); border:1px solid rgba(231,76,60,0.2); color:#e74c3c; }
+    .contact-icon.clock { background:rgba(155,89,182,0.1); border:1px solid rgba(155,89,182,0.2); color:#9b59b6; }
+
+    .contact-item-text strong {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 3px;
+    }
+
+    .contact-item-text p, .contact-item-text a {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      transition: color 0.2s;
+    }
+
+    .contact-item-text a:hover { color: var(--accent); }
+
+    .contact-social {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      margin-top: 10px;
+    }
+
+    .contact-social p {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .contact-social-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .contact-social-links a {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      display: flex; align-items:center; justify-content:center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .contact-social-links a:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    /* Form Card */
+    .contact-form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px;
+    }
+
+    .contact-form-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 6px;
+    }
+
+    .contact-form-card > p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 30px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .subject-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
+    }
+
+    .subject-tag {
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .subject-tag.active, .subject-tag:hover {
+      background: rgba(245,166,35,0.12);
+      border-color: rgba(245,166,35,0.3);
+      color: var(--accent);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      background: var(--gradient-accent);
+      border: none;
+      border-radius: 50px;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 8px 25px rgba(245,166,35,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(245,166,35,0.45);
+    }
+
+    /* Map placeholder */
+    .map-section { padding: 0 5% 80px; }
+
+    .map-placeholder {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 16px;
+      color: var(--text-secondary);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(245,166,35,0.03) 0%, rgba(0,201,167,0.03) 100%);
+    }
+
+    .map-icon { font-size: 3.5rem; }
+    .map-placeholder h3 { color: var(--text-primary); font-size: 1.2rem; position:relative; }
+    .map-placeholder p { font-size: 0.88rem; position:relative; text-align:center; }
+
+    /* FAQ */
+    .faq-section {
+      padding: 80px 5%;
+      background: var(--bg-card);
+    }
+
+    .faq-grid {
+      max-width: 800px;
+      margin: 40px auto 0;
+    }
+
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 18px 22px;
+      background: transparent;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: 'Outfit', sans-serif;
+      text-align: left;
+      transition: var(--transition);
+    }
+
+    .faq-question:hover { background: var(--glass); }
+    .faq-question.active { color: var(--accent); }
+
+    .faq-icon {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .faq-question.active .faq-icon { transform: rotate(180deg); color: var(--accent); }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+    }
+
+    .faq-answer.open { max-height: 200px; }
+
+    .faq-answer-inner {
+      padding: 0 22px 18px;
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 900px) {
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+      .contact-form-card { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-logo">✈ Travel<span>Blog</span></div>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="2nd page.html">Destinations</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="reviews.html">Reviews</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+      <li><a href="1st page.html" class="nav-btn">Login</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="contact-hero animate-fadeInUp">
+    <div class="section-badge">Get In Touch</div>
+    <h1 style="font-family:'Playfair Display',serif; font-size:clamp(2.2rem,5vw,3.5rem); margin-bottom:16px;">
+      We'd Love to Hear <em style="color:var(--accent); font-style:italic;">from You</em>
+    </h1>
+    <p style="color:var(--text-secondary); font-size:1rem; max-width:520px; margin:0 auto; line-height:1.8;">
+      Have a question about your trip? Want to customize a tour? Or just say hello? We're always here to help.
+    </p>
+  </div>
+
+  <!-- Contact Grid -->
+  <div class="contact-grid">
+    <!-- Info Card -->
+    <div class="contact-info-card reveal">
+      <div class="contact-info-top">
+        <h2>Contact Information</h2>
+        <p>Reach us through any of these channels</p>
+      </div>
+      <div class="contact-info-body">
+        <div class="contact-item">
+          <div class="contact-icon phone"><i class="fas fa-phone-alt"></i></div>
+          <div class="contact-item-text">
+            <strong>Phone</strong>
+            <a href="tel:+911234567890">+91 1234 567 890</a><br>
+            <a href="tel:+919876543210">+91 9876 543 210</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon email"><i class="fas fa-envelope"></i></div>
+          <div class="contact-item-text">
+            <strong>Email</strong>
+            <a href="mailto:hello@travelblog.in">hello@travelblog.in</a><br>
+            <a href="mailto:bookings@travelblog.in">bookings@travelblog.in</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon location"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="contact-item-text">
+            <strong>Office</strong>
+            <p>42 Travel House, Connaught Place<br>New Delhi — 110001, India</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon clock"><i class="fas fa-clock"></i></div>
+          <div class="contact-item-text">
+            <strong>Working Hours</strong>
+            <p>Mon – Sat: 9:00 AM – 7:00 PM IST<br>Sunday: 10:00 AM – 4:00 PM IST</p>
+          </div>
+        </div>
+
+        <div class="contact-social">
+          <p>Follow us for travel inspiration</p>
+          <div class="contact-social-links">
+            <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="contact-form-card reveal delay-2">
+      <h3>Send Us a Message</h3>
+      <p>We typically respond within 2 hours during working hours</p>
+
+      <div class="subject-tags" id="subjectTags">
+        <button class="subject-tag active" onclick="selectTag(this)">Trip Planning</button>
+        <button class="subject-tag" onclick="selectTag(this)">Booking Help</button>
+        <button class="subject-tag" onclick="selectTag(this)">Cancellation</button>
+        <button class="subject-tag" onclick="selectTag(this)">Partnership</button>
+        <button class="subject-tag" onclick="selectTag(this)">General</button>
+      </div>
+
+      <form id="contactForm" onsubmit="submitContact(event)" style="margin-top:20px;">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" placeholder="Your first name" required>
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" placeholder="Your last name" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="you@example.com" required>
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" placeholder="+91 XXXXXXXXXX">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Your Message</label>
+          <textarea rows="5" placeholder="Tell us about your travel plans or questions..." required style="resize:vertical; min-height:120px;"></textarea>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px;">
+          <input type="checkbox" id="newsletter" style="width:16px; height:16px; accent-color:var(--accent);">
+          <label for="newsletter" style="font-size:0.85rem; color:var(--text-secondary); cursor:pointer;">
+            Subscribe to our travel newsletter for deals & inspiration
+          </label>
+        </div>
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <i class="fas fa-paper-plane"></i>
+          <span id="submitText">Send Message</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Map -->
+  <div class="map-section">
+    <div class="map-placeholder reveal">
+      <div class="map-icon">🗺️</div>
+      <h3>Find Us in New Delhi</h3>
+      <p>42 Travel House, Connaught Place, New Delhi — 110001<br>
+         <a href="https://maps.google.com" target="_blank" style="color:var(--accent);">Open in Google Maps →</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div style="text-align:center;">
+      <div class="section-badge">Common Questions</div>
+      <h2 class="section-title">Frequently Asked</h2>
+    </div>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(this)">
+          How do I book a tour with TravelBlog?
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Simply browse our destinations, choose a tour, select your date and number of travelers, then complete the booking form. You'll receive a confirmation email within minutes.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(this)">
+          What's your cancellation policy?
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Full refund if cancelled 15+ days before. 50% refund for 7–15 days. No refund for less than 7 days. We recommend travel insurance for added peace of mind.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(this)">
+          Can I customize my itinerary?
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Absolutely! All our tours are fully customizable. Contact us through the form above or call us and our expert team will craft a personalized itinerary just for you.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(this)">
+          Is accommodation included in the package?
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Most packages include accommodation. Package details clearly state what's included. We partner with 3-5 star hotels and boutique properties across India.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(this)">
+          Do you offer group discounts?
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Yes! Groups of 6+ people get 10% off, groups of 10+ get 15% off. Contact us for custom corporate and group travel packages.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo">✈ Travel<span>Blog</span></div>
+        <p>Your gateway to discovering the incredible beauty and culture of India.</p>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Quick Links</h4><ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="2nd page.html">Destinations</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Support</h4><ul>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Cancellation Policy</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms & Conditions</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul>
+        <li><a href="tel:+911234567890">+91 1234 567 890</a></li>
+        <li><a href="mailto:hello@travelblog.in">hello@travelblog.in</a></li>
+        <li><a href="#">New Delhi, India</a></li>
+        <li><a href="#">Mon–Sat 9AM–7PM</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 TravelBlog India. All rights reserved.</p>
+      <p>Made with ❤️ for travel lovers</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast">
+    <div class="toast-icon"><i class="fas fa-check"></i></div>
+    <span class="toast-text" id="toastText"></span>
+  </div>
+
+  <script>
+    window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50));
+    document.getElementById('hamburger').addEventListener('click', () => document.getElementById('navMenu').classList.toggle('open'));
+
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver(e => e.forEach(el => { if (el.isIntersecting) el.target.classList.add('visible'); }), { threshold: 0.1 });
+    reveals.forEach(r => obs.observe(r));
+
+    function selectTag(btn) {
+      document.querySelectorAll('.subject-tag').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function submitContact(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const text = document.getElementById('submitText');
+      text.textContent = 'Sending...';
+      btn.style.opacity = '0.8';
+      btn.disabled = true;
+
+      setTimeout(() => {
+        text.textContent = '✅ Message Sent!';
+        btn.style.background = 'linear-gradient(135deg, #00c9a7, #00a78e)';
+        showToast('🎉 Message sent! We\'ll reply within 2 hours.');
+        setTimeout(() => {
+          text.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+          btn.style.background = '';
+          btn.style.opacity = '1';
+          btn.disabled = false;
+          document.getElementById('contactForm').reset();
+        }, 3000);
+      }, 1500);
+    }
+
+    function toggleFAQ(btn) {
+      const answer = btn.nextElementSibling;
+      const isOpen = answer.classList.contains('open');
+      document.querySelectorAll('.faq-answer').forEach(a => { a.classList.remove('open'); });
+      document.querySelectorAll('.faq-question').forEach(b => b.classList.remove('active'));
+      if (!isOpen) { answer.classList.add('open'); btn.classList.add('active'); }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastText').textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+  </script>
+</body>
+</html>

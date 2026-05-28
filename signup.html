@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up — TravelBlog India</title>
+  <meta name="description" content="Create a TravelBlog India account to save your favorite destinations and plan custom trips.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--bg-dark);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-bg {
+      position: fixed;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1506461883276-594a12b11cc3?w=1600&q=80') center/cover;
+      z-index: 0;
+    }
+
+    .auth-overlay {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(10,14,26,0.92) 0%, rgba(26,42,80,0.85) 100%);
+      z-index: 1;
+    }
+
+    .floating-shapes {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(0, 201, 167, 0.03);
+      border: 1px solid rgba(0, 201, 167, 0.06);
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .auth-container {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      width: 950px;
+      max-width: 95vw;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+      border: 1px solid var(--glass-border);
+      animation: fadeInUp 0.7s ease both;
+    }
+
+    .auth-left {
+      background: linear-gradient(135deg, rgba(0,201,167,0.15), rgba(245,166,35,0.05));
+      background-color: rgba(17,24,39,0.8);
+      backdrop-filter: blur(20px);
+      padding: 50px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-left::before {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(0,201,167,0.08) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .auth-left-content { position: relative; z-index: 1; }
+
+    .auth-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 40px;
+    }
+
+    .auth-brand-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--teal);
+    }
+
+    .auth-left h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .auth-left p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+
+    .auth-features {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .auth-feature {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+    }
+
+    .auth-feature i {
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      background: rgba(0,201,167,0.1);
+      border: 1px solid rgba(0,201,167,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--teal);
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    /* Right side */
+    .auth-right {
+      background: rgba(17,24,39,0.95);
+      backdrop-filter: blur(20px);
+      padding: 40px 45px;
+    }
+
+    .auth-right h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .auth-right > p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+    }
+
+    .auth-form .form-group { margin-bottom: 15px; }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .input-wrapper input {
+      padding-left: 40px !important;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .toggle-password:hover { color: var(--teal); }
+
+    .form-options {
+      margin-bottom: 20px;
+    }
+
+    .terms-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      line-height: 1.4;
+    }
+
+    .terms-check input[type="checkbox"] {
+      width: 16px; height: 16px;
+      accent-color: var(--teal);
+      cursor: pointer;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .terms-check a {
+      color: var(--teal);
+      text-decoration: underline;
+    }
+
+    .signup-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--gradient-teal);
+      border: none;
+      border-radius: 50px;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 8px 25px rgba(0,201,167,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .signup-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(0,201,167,0.45);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+      margin-bottom: 16px;
+    }
+
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .social-btns {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .social-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .social-btn:hover {
+      border-color: rgba(255,255,255,0.2);
+      background: var(--glass);
+      color: var(--text-primary);
+    }
+
+    .login-link {
+      text-align: center;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+    }
+
+    .login-link a {
+      color: var(--teal);
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+
+    .login-link a:hover { opacity: 0.8; }
+
+    /* Password strength */
+    .strength-wrapper {
+      margin-top: 6px;
+    }
+
+    .strength-bar {
+      height: 4px;
+      border-radius: 3px;
+      background: var(--border);
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+
+    .strength-fill {
+      height: 100%;
+      border-radius: 3px;
+      width: 0;
+      transition: width 0.4s, background 0.4s;
+    }
+
+    .strength-text {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    @media (max-width: 800px) {
+      .auth-container { grid-template-columns: 1fr; }
+      .auth-left { display: none; }
+      .form-row { grid-template-columns: 1fr; gap: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-bg"></div>
+  <div class="auth-overlay"></div>
+  <div class="floating-shapes">
+    <div class="shape" style="width:300px;height:300px;top:-50px;left:-50px;animation-delay:0s;"></div>
+    <div class="shape" style="width:200px;height:200px;bottom:100px;right:-50px;animation-delay:3s;"></div>
+    <div class="shape" style="width:150px;height:150px;bottom:-30px;left:200px;animation-delay:5s;"></div>
+  </div>
+
+  <div class="auth-container">
+    <!-- Left -->
+    <div class="auth-left">
+      <div class="auth-left-content">
+        <div class="auth-brand">
+          <div class="auth-brand-logo">✈ TravelBlog</div>
+        </div>
+        <h2>Join Our Community</h2>
+        <p>Create a free account to unlock exclusive features, customize itineraries, track your travel budget, and get recommendations tailored just for you.</p>
+        <div class="auth-features">
+          <div class="auth-feature">
+            <i class="fas fa-compass"></i>
+            <span>Interactive trip planner dashboard</span>
+          </div>
+          <div class="auth-feature">
+            <i class="fas fa-percentage"></i>
+            <span>Save up to 25% on members-only rates</span>
+          </div>
+          <div class="auth-feature">
+            <i class="fas fa-bell"></i>
+            <span>Instant booking alerts & price drops</span>
+          </div>
+          <div class="auth-feature">
+            <i class="fas fa-heart"></i>
+            <span>Save & organize your dream itineraries</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right -->
+    <div class="auth-right">
+      <h3>Create Account</h3>
+      <p>Start your Indian adventure with us today</p>
+
+      <form class="auth-form" id="signupForm" onsubmit="handleSignup(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <div class="input-wrapper">
+              <i class="fas fa-user-edit"></i>
+              <input type="text" id="fname" placeholder="First Name" required autocomplete="given-name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <div class="input-wrapper">
+              <i class="fas fa-user-edit"></i>
+              <input type="text" id="lname" placeholder="Last Name" required autocomplete="family-name">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Username</label>
+          <div class="input-wrapper">
+            <i class="fas fa-user"></i>
+            <input type="text" id="username" placeholder="Choose a username" required autocomplete="username">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email Address</label>
+          <div class="input-wrapper">
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="email" placeholder="you@example.com" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <div class="input-wrapper">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="signupPass" placeholder="Create secure password" required oninput="checkPasswordStrength(this.value)">
+            <span class="toggle-password" onclick="togglePass('signupPass', this)">
+              <i class="fas fa-eye"></i>
+            </span>
+          </div>
+          <div class="strength-wrapper">
+            <div class="strength-bar">
+              <div class="strength-fill" id="strengthFill"></div>
+            </div>
+            <span class="strength-text" id="strengthText">Password Strength</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <div class="input-wrapper">
+            <i class="fas fa-shield-alt"></i>
+            <input type="password" id="signupConfirmPass" placeholder="Repeat your password" required>
+            <span class="toggle-password" onclick="togglePass('signupConfirmPass', this)">
+              <i class="fas fa-eye"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-options">
+          <label class="terms-check">
+            <input type="checkbox" id="terms" required>
+            <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</span>
+          </label>
+        </div>
+
+        <button type="submit" class="signup-btn" id="signupBtn">
+          <span id="signupBtnText"><i class="fas fa-user-plus"></i> Register Now</span>
+        </button>
+      </form>
+
+      <div class="divider">or sign up with</div>
+
+      <div class="social-btns">
+        <button class="social-btn"><i class="fab fa-google"></i> Google</button>
+        <button class="social-btn"><i class="fab fa-facebook-f"></i> Facebook</button>
+      </div>
+
+      <p class="login-link">
+        Already have an account? <a href="1st page.html">Sign In</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">
+    <div class="toast-icon"><i class="fas fa-check"></i></div>
+    <span class="toast-text" id="toastText"></span>
+  </div>
+
+  <script>
+    function togglePass(id, icon) {
+      const input = document.getElementById(id);
+      const isText = input.type === 'text';
+      input.type = isText ? 'password' : 'text';
+      icon.innerHTML = isText ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+    }
+
+    function checkPasswordStrength(password) {
+      const fill = document.getElementById('strengthFill');
+      const text = document.getElementById('strengthText');
+      let strength = 0;
+
+      if (password.length === 0) {
+        fill.style.width = '0%';
+        text.textContent = 'Password Strength';
+        text.style.color = 'var(--text-secondary)';
+        return;
+      }
+
+      if (password.length >= 6) strength += 1;
+      if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength += 1;
+      if (password.match(/\d/)) strength += 1;
+      if (password.match(/[^a-zA-Z\d]/)) strength += 1;
+
+      switch(strength) {
+        case 1:
+          fill.style.width = '25%';
+          fill.style.backgroundColor = '#e74c3c'; // red
+          text.textContent = 'Weak';
+          text.style.color = '#e74c3c';
+          break;
+        case 2:
+          fill.style.width = '50%';
+          fill.style.backgroundColor = '#e67e22'; // orange
+          text.textContent = 'Medium';
+          text.style.color = '#e67e22';
+          break;
+        case 3:
+          fill.style.width = '75%';
+          fill.style.backgroundColor = '#f1c40f'; // yellow
+          text.textContent = 'Strong';
+          text.style.color = '#f1c40f';
+          break;
+        case 4:
+          fill.style.width = '100%';
+          fill.style.backgroundColor = 'var(--teal)'; // teal
+          text.textContent = 'Excellent & Secure';
+          text.style.color = 'var(--teal)';
+          break;
+      }
+    }
+
+    function handleSignup(e) {
+      e.preventDefault();
+      const p1 = document.getElementById('signupPass').value;
+      const p2 = document.getElementById('signupConfirmPass').value;
+
+      if (p1 !== p2) {
+        showToast('❌ Passwords do not match!', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('signupBtn');
+      const btnText = document.getElementById('signupBtnText');
+      btnText.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+      btn.disabled = true;
+      btn.style.opacity = '0.8';
+
+      setTimeout(() => {
+        showToast('🎉 Registration successful! Welcome to TravelBlog.');
+        setTimeout(() => window.location.href = '1st page.html', 1500);
+      }, 1500);
+    }
+
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('toast');
+      const toastIcon = toast.querySelector('.toast-icon');
+      const toastText = document.getElementById('toastText');
+
+      toastText.textContent = msg;
+      
+      if (type === 'error') {
+        toast.style.borderColor = 'rgba(231,76,60,0.4)';
+        toastIcon.style.color = '#e74c3c';
+        toastIcon.style.backgroundColor = 'rgba(231,76,60,0.15)';
+        toastIcon.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+      } else {
+        toast.style.borderColor = 'rgba(0,201,167,0.3)';
+        toastIcon.style.color = 'var(--teal)';
+        toastIcon.style.backgroundColor = 'rgba(0,201,167,0.15)';
+        toastIcon.innerHTML = '<i class="fas fa-check"></i>';
+      }
+
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+  </script>
+</body>
+</html>

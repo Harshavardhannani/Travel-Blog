@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Your Tour — TravelBlog India</title>
+  <meta name="description" content="Book your curated trip across India. Secure online booking for tour packages.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    /* Custom booking page styling */
+    .booking-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 40px;
+      padding: 0 5% 80px;
+      align-items: start;
+    }
+
+    /* Summary Card Left */
+    .booking-summary-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: sticky;
+      top: 100px;
+      box-shadow: var(--shadow);
+    }
+
+    .summary-image-container {
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .summary-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .booking-summary-card:hover .summary-image-container img {
+      transform: scale(1.05);
+    }
+
+    .summary-badge {
+      position: absolute;
+      top: 20px; right: 20px;
+      background: var(--gradient-teal);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(0,201,167,0.3);
+    }
+
+    .summary-body {
+      padding: 30px;
+    }
+
+    .summary-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .summary-meta {
+      display: flex;
+      gap: 15px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 15px;
+    }
+
+    .summary-meta span i {
+      color: var(--accent);
+      margin-right: 5px;
+    }
+
+    .price-breakdown {
+      margin-bottom: 24px;
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .price-row.total {
+      border-top: 1px solid var(--border);
+      padding-top: 15px;
+      margin-top: 15px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .price-row.total .total-amount {
+      color: var(--accent);
+      font-size: 1.4rem;
+    }
+
+    .summary-includes h4 {
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+
+    .summary-includes ul {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .summary-includes ul li {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .summary-includes ul li i {
+      color: var(--teal);
+    }
+
+    /* Form Right */
+    .booking-form-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px;
+      box-shadow: var(--shadow);
+    }
+
+    .booking-form-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .booking-form-card > p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 30px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .book-btn {
+      width: 100%;
+      padding: 15px;
+      background: var(--gradient-accent);
+      border: none;
+      border-radius: 50px;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 8px 25px rgba(245,166,35,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .book-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(245,166,35,0.45);
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 14, 26, 0.9);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      padding: 20px;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .receipt-modal {
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      width: 500px;
+      max-width: 100%;
+      overflow: hidden;
+      transform: translateY(40px);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: var(--shadow);
+    }
+
+    .modal-overlay.open .receipt-modal {
+      transform: translateY(0);
+    }
+
+    .receipt-header {
+      background: linear-gradient(135deg, rgba(0,201,167,0.12), rgba(245,166,35,0.08));
+      padding: 40px 30px 30px;
+      text-align: center;
+      border-bottom: 1px dashed var(--border);
+      position: relative;
+    }
+
+    /* Half circle cutouts for receipt feel */
+    .receipt-header::before, .receipt-header::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      width: 20px; height: 20px;
+      background: var(--bg-dark);
+      border-radius: 50%;
+    }
+    .receipt-header::before { left: -10px; }
+    .receipt-header::after { right: -10px; }
+
+    .receipt-icon {
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: rgba(0,201,167,0.15);
+      border: 1px solid rgba(0,201,167,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--teal);
+      font-size: 1.8rem;
+      margin: 0 auto 16px;
+    }
+
+    .receipt-header h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .receipt-header p {
+      color: var(--teal);
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .receipt-body {
+      padding: 30px;
+    }
+
+    .receipt-details {
+      margin-bottom: 24px;
+    }
+
+    .receipt-line {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 0.88rem;
+    }
+
+    .receipt-label { color: var(--text-secondary); }
+    .receipt-val { color: var(--text-primary); font-weight: 600; text-align: right; }
+
+    .receipt-footer-text {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+      line-height: 1.5;
+      margin-bottom: 24px;
+      background: rgba(255,255,255,0.02);
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .receipt-btns {
+      display: flex;
+      gap: 12px;
+    }
+
+    .receipt-btns button, .receipt-btns a {
+      flex: 1;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .booking-grid { grid-template-columns: 1fr; }
+      .booking-summary-card { position: static; }
+    }
+
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; gap: 0; }
+      .booking-form-card { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-logo">✈ Travel<span>Blog</span></div>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="2nd page.html">Destinations</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="reviews.html">Reviews</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="1st page.html" class="nav-btn">Login</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="page-header animate-fadeInUp">
+    <div class="badge">Booking Portal</div>
+    <h1>Book Your adventure</h1>
+    <p>Secure your spot on a curated trip. Fill in your details below and finalize your reservation instantly.</p>
+  </div>
+
+  <!-- Booking Grid -->
+  <div class="booking-grid">
+    <!-- Left Column: Summary Card -->
+    <div class="booking-summary-card reveal">
+      <div class="summary-image-container">
+        <span class="summary-badge" id="tripDuration">5 Days</span>
+        <img id="tripImg" src="https://images.unsplash.com/photo-1599661046289-e31897846e41?w=800&q=80" alt="Destination Preview">
+      </div>
+      <div class="summary-body">
+        <h3 class="summary-title" id="tripTitle">Golden Triangle Heritage</h3>
+        <div class="summary-meta">
+          <span id="tripLocation"><i class="fas fa-map-marker-alt"></i> Delhi, Agra, Jaipur</span>
+          <span><i class="fas fa-star"></i> 4.9 (1,240 reviews)</span>
+        </div>
+
+        <div class="price-breakdown">
+          <div class="price-row">
+            <span>Package Rate (per traveler)</span>
+            <span id="baseRateDisplay">₹15,000</span>
+          </div>
+          <div class="price-row">
+            <span>Travelers</span>
+            <span id="travelerCountDisplay">1</span>
+          </div>
+          <div class="price-row">
+            <span>Subtotal</span>
+            <span id="subtotalDisplay">₹15,000</span>
+          </div>
+          <div class="price-row">
+            <span>GST (5%)</span>
+            <span id="taxDisplay">₹750</span>
+          </div>
+          <div class="price-row total">
+            <span>Total Price</span>
+            <span class="total-amount" id="totalDisplay">₹15,750</span>
+          </div>
+        </div>
+
+        <div class="summary-includes">
+          <h4>What's Included</h4>
+          <ul>
+            <li><i class="fas fa-hotel"></i> 4-Star Hotels</li>
+            <li><i class="fas fa-utensils"></i> Daily Breakfast</li>
+            <li><i class="fas fa-user-tie"></i> Private Guide</li>
+            <li><i class="fas fa-car"></i> AC Transfers</li>
+            <li><i class="fas fa-ticket-alt"></i> Entry Tickets</li>
+            <li><i class="fas fa-shield-alt"></i> Travel Insurance</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Booking Form -->
+    <div class="booking-form-card reveal delay-2">
+      <h3>Reservation Details</h3>
+      <p>Please enter accurate details. Your booking confirmation and visa/travel guides will be sent here.</p>
+
+      <form id="bookingForm" onsubmit="handleBookingSubmit(event)">
+        <div class="form-group">
+          <label>Full Name</label>
+          <div class="input-wrapper">
+            <i class="fas fa-user" style="position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--text-secondary);"></i>
+            <input type="text" id="bookName" placeholder="Enter your full name" required style="padding-left:40px;">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email Address</label>
+            <div class="input-wrapper">
+              <i class="fas fa-envelope" style="position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--text-secondary);"></i>
+              <input type="email" id="bookEmail" placeholder="you@example.com" required style="padding-left:40px;">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Contact Number</label>
+            <div class="input-wrapper">
+              <i class="fas fa-phone" style="position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--text-secondary);"></i>
+              <input type="tel" id="bookPhone" placeholder="+91 XXXXXXXXXX" required style="padding-left:40px;">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Choose Tour Package</label>
+            <select id="bookPackage" onchange="updateSummary()" required>
+              <option value="triangle" data-price="15000" data-duration="5 Days" data-location="Delhi, Agra, Jaipur" data-img="https://images.unsplash.com/photo-1599661046289-e31897846e41?w=800&q=80">Golden Triangle Heritage (₹15,000)</option>
+              <option value="kerala" data-price="20000" data-duration="6 Days" data-location="Kochi, Munnar, Alleppey" data-img="https://images.unsplash.com/photo-1593693397690-362cb9666fc2?w=800&q=80">Kerala Backwaters & Hills (₹20,000)</option>
+              <option value="ladakh" data-price="30000" data-duration="7 Days" data-location="Leh, Nubra, Pangong" data-img="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&q=80">Himalayan Ladakh Explorer (₹30,000)</option>
+              <option value="rajasthan" data-price="25000" data-duration="6 Days" data-location="Jaipur, Jodhpur, Udaipur" data-img="https://images.unsplash.com/photo-1477584322813-41a45a2d48fc?w=800&q=80">Royal Rajasthan Heritage (₹25,000)</option>
+              <option value="goa" data-price="12000" data-duration="4 Days" data-location="Panaji, Calangute, Baga" data-img="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80">Goa Coastal Getaway (₹12,000)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Number of Travelers</label>
+            <input type="number" id="bookTravelers" min="1" max="10" value="1" oninput="updateSummary()" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Start Date</label>
+            <input type="date" id="bookStart" onchange="handleStartDateChange()" required>
+          </div>
+          <div class="form-group">
+            <label>End Date</label>
+            <input type="date" id="bookEnd" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Special Requests / Dietary Restrictions</label>
+          <textarea id="bookRequests" rows="4" placeholder="E.g., vegetarian meals, wheelchair assistance, twin beds, room preferences..." style="resize:vertical; min-height:100px;"></textarea>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px;">
+          <input type="checkbox" id="terms" required style="width:16px; height:16px; accent-color:var(--accent);">
+          <label for="terms" style="font-size:0.85rem; color:var(--text-secondary); cursor:pointer;">
+            I verify that the dates and passenger details are correct and agree to the booking policies.
+          </label>
+        </div>
+
+        <button type="submit" class="book-btn" id="bookBtn">
+          <i class="fas fa-credit-card"></i>
+          <span id="bookBtnText">Confirm Reservation</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo">✈ Travel<span>Blog</span></div>
+        <p>Your gateway to discovering the incredible beauty and culture of India.</p>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Quick Links</h4><ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="2nd page.html">Destinations</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Support</h4><ul>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Cancellation Policy</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms & Conditions</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul>
+        <li><a href="tel:+911234567890">+91 1234 567 890</a></li>
+        <li><a href="mailto:hello@travelblog.in">hello@travelblog.in</a></li>
+        <li><a href="#">New Delhi, India</a></li>
+        <li><a href="#">Mon–Sat 9AM–7PM</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 TravelBlog India. All rights reserved.</p>
+      <p>Made with ❤️ for travel lovers</p>
+    </div>
+  </footer>
+
+  <!-- Receipt / Confirmation Modal -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="receipt-modal">
+      <div class="receipt-header">
+        <div class="receipt-icon"><i class="fas fa-check"></i></div>
+        <h4>Booking Confirmed!</h4>
+        <p id="receiptCode">T-9843-IND</p>
+      </div>
+      <div class="receipt-body">
+        <div class="receipt-details">
+          <div class="receipt-line">
+            <span class="receipt-label">Lead Traveler</span>
+            <span class="receipt-val" id="receiptName">Harsh Vardhan</span>
+          </div>
+          <div class="receipt-line">
+            <span class="receipt-label">Selected Tour</span>
+            <span class="receipt-val" id="receiptTour">Golden Triangle Heritage</span>
+          </div>
+          <div class="receipt-line">
+            <span class="receipt-label">Total Travelers</span>
+            <span class="receipt-val" id="receiptTravelers">2 Members</span>
+          </div>
+          <div class="receipt-line">
+            <span class="receipt-label">Travel Dates</span>
+            <span class="receipt-val" id="receiptDates">May 30, 2026 – Jun 4, 2026</span>
+          </div>
+          <div class="receipt-line" style="border-top: 1px dashed var(--border); padding-top: 12px; margin-top: 12px;">
+            <span class="receipt-label" style="color:var(--text-primary); font-weight:700;">Amount Paid</span>
+            <span class="receipt-val" id="receiptTotal" style="color:var(--accent); font-size:1.15rem; font-weight:700;">₹31,500</span>
+          </div>
+        </div>
+
+        <div class="receipt-footer-text">
+          📧 A confirmation invoice and visa assistance guide have been sent to your email address. Our travel coordinator will call you within 2 hours.
+        </div>
+
+        <div class="receipt-btns">
+          <a href="2nd page.html" class="btn-teal" style="display:inline-flex; justify-content:center;">Explore Tours</a>
+          <button class="btn-secondary" onclick="closeModal()">Close Window</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">
+    <div class="toast-icon"><i class="fas fa-check"></i></div>
+    <span class="toast-text" id="toastText"></span>
+  </div>
+
+  <script>
+    // Navbar Scroll & Menu Toggles
+    window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50));
+    document.getElementById('hamburger').addEventListener('click', () => document.getElementById('navMenu').classList.toggle('open'));
+
+    // Intersection Observer for Reveal Elements
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver(e => e.forEach(el => { if (el.isIntersecting) el.target.classList.add('visible'); }), { threshold: 0.1 });
+    reveals.forEach(r => obs.observe(r));
+
+    // Dynamic Price Calculator
+    function updateSummary() {
+      const select = document.getElementById('bookPackage');
+      const selectedOption = select.options[select.selectedIndex];
+      
+      const price = parseFloat(selectedOption.getAttribute('data-price'));
+      const duration = selectedOption.getAttribute('data-duration');
+      const location = selectedOption.getAttribute('data-location');
+      const img = selectedOption.getAttribute('data-img');
+      const title = selectedOption.text.split(' (')[0];
+      
+      const travelers = parseInt(document.getElementById('bookTravelers').value) || 1;
+      
+      // Update summary panel UI
+      document.getElementById('tripTitle').textContent = title;
+      document.getElementById('tripDuration').textContent = duration;
+      document.getElementById('tripLocation').innerHTML = `<i class="fas fa-map-marker-alt"></i> ${location}`;
+      document.getElementById('tripImg').src = img;
+      
+      // Calculate rates
+      const baseSubtotal = price * travelers;
+      const tax = baseSubtotal * 0.05; // 5% GST
+      const total = baseSubtotal + tax;
+
+      // Update calculations display
+      document.getElementById('baseRateDisplay').textContent = '₹' + price.toLocaleString('en-IN');
+      document.getElementById('travelerCountDisplay').textContent = travelers;
+      document.getElementById('subtotalDisplay').textContent = '₹' + baseSubtotal.toLocaleString('en-IN');
+      document.getElementById('taxDisplay').textContent = '₹' + tax.toLocaleString('en-IN');
+      document.getElementById('totalDisplay').textContent = '₹' + total.toLocaleString('en-IN');
+    }
+
+    // Set Date limits
+    const today = new Date().toISOString().split('T')[0];
+    const startInput = document.getElementById('bookStart');
+    const endInput = document.getElementById('bookEnd');
+    
+    startInput.min = today;
+    
+    function handleStartDateChange() {
+      const startVal = startInput.value;
+      if (startVal) {
+        // Set minimum end date to start date + 1 day
+        const nextDay = new Date(startVal);
+        nextDay.setDate(nextDay.getDate() + 1);
+        endInput.min = nextDay.toISOString().split('T')[0];
+        if (endInput.value && endInput.value <= startVal) {
+          endInput.value = nextDay.toISOString().split('T')[0];
+        }
+      }
+    }
+
+    // Initialize summary
+    updateSummary();
+
+    // Form Submissions
+    function handleBookingSubmit(e) {
+      e.preventDefault();
+      
+      const btn = document.getElementById('bookBtn');
+      const btnText = document.getElementById('bookBtnText');
+      btnText.textContent = 'Processing Reservation...';
+      btn.disabled = true;
+      btn.style.opacity = '0.8';
+
+      // Gather input data
+      const name = document.getElementById('bookName').value;
+      const select = document.getElementById('bookPackage');
+      const tourName = select.options[select.selectedIndex].text.split(' (')[0];
+      const travelers = document.getElementById('bookTravelers').value;
+      const startVal = document.getElementById('bookStart').value;
+      const endVal = document.getElementById('bookEnd').value;
+      const totalCost = document.getElementById('totalDisplay').textContent;
+
+      // Generate verification code
+      const rNum = 'TB-' + Math.floor(10000 + Math.random() * 90000) + '-IND';
+
+      // Formatting Dates
+      const startFormatted = new Date(startVal).toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'});
+      const endFormatted = new Date(endVal).toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'});
+
+      setTimeout(() => {
+        // Set receipt details
+        document.getElementById('receiptCode').textContent = rNum;
+        document.getElementById('receiptName').textContent = name;
+        document.getElementById('receiptTour').textContent = tourName;
+        document.getElementById('receiptTravelers').textContent = `${travelers} Traveler${travelers > 1 ? 's' : ''}`;
+        document.getElementById('receiptDates').textContent = `${startFormatted} – ${endFormatted}`;
+        document.getElementById('receiptTotal').textContent = totalCost;
+
+        // Reset submit button state
+        btnText.textContent = 'Confirm Reservation';
+        btn.disabled = false;
+        btn.style.opacity = '1';
+
+        // Trigger confirmation visual modal and toast
+        showToast('🎉 Booking registered successfully!');
+        
+        // Open receipt modal
+        document.getElementById('confirmModal').classList.add('open');
+      }, 1800);
+    }
+
+    function closeModal() {
+      document.getElementById('confirmModal').classList.remove('open');
+      document.getElementById('bookingForm').reset();
+      updateSummary();
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastText').textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+  </script>
+</body>
+</html>

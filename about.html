@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us — TravelBlog India</title>
+  <meta name="description" content="Learn about TravelBlog India — 28 years of curating incredible travel experiences across India.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    .about-hero {
+      padding: 130px 5% 80px;
+      position: relative;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .about-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 600px;
+      background: radial-gradient(ellipse, rgba(245,166,35,0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .about-hero-inner { position: relative; z-index: 1; }
+
+    .about-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      margin-bottom: 20px;
+    }
+
+    .about-hero h1 em { font-style: italic; color: var(--accent); }
+
+    .about-hero p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.8;
+    }
+
+    .about-hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 50px;
+    }
+
+    .astat {
+      text-align: center;
+    }
+
+    .astat-number {
+      display: block;
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .astat-label {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+    }
+
+    /* Story Section */
+    .story-section {
+      padding: 80px 5%;
+      background: var(--bg-card);
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 70px;
+      align-items: center;
+    }
+
+    .story-imgs {
+      position: relative;
+      height: 500px;
+    }
+
+    .story-img-main {
+      position: absolute;
+      width: 75%;
+      height: 380px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      top: 0; left: 0;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+    }
+
+    .story-img-secondary {
+      position: absolute;
+      width: 55%;
+      height: 240px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      bottom: 0; right: 0;
+      border: 4px solid var(--bg-card);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    }
+
+    .story-years {
+      position: absolute;
+      top: 50%;
+      right: 5%;
+      transform: translateY(-50%);
+      background: var(--gradient-accent);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(245,166,35,0.4);
+    }
+
+    .story-years .num {
+      display: block;
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .story-years .txt {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.85);
+      font-weight: 600;
+    }
+
+    .story-text h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+    }
+
+    .story-text p {
+      color: var(--text-secondary);
+      line-height: 1.9;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+    }
+
+    /* Team */
+    .team-section { padding: 80px 5%; }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .team-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .team-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(245,166,35,0.2);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+    }
+
+    .team-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .team-card:hover .team-img { transform: scale(1.08); }
+
+    .team-info {
+      padding: 20px;
+    }
+
+    .team-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .team-role {
+      font-size: 0.82rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .team-social {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .team-social a {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      transition: var(--transition);
+    }
+
+    .team-social a:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* Values */
+    .values-section {
+      padding: 80px 5%;
+      background: var(--bg-card);
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-top: 40px;
+    }
+
+    .value-card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 26px;
+      transition: var(--transition);
+    }
+
+    .value-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(0,201,167,0.3);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    }
+
+    .value-icon {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .value-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+
+    .value-card p {
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    /* Timeline */
+    .timeline-section { padding: 80px 5%; }
+
+    .timeline {
+      position: relative;
+      max-width: 700px;
+      margin: 50px auto 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .timeline-item:nth-child(even) { flex-direction: row-reverse; }
+
+    .timeline-dot {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px; height: 16px;
+      background: var(--accent);
+      border-radius: 50%;
+      border: 3px solid var(--bg-dark);
+      top: 5px;
+    }
+
+    .timeline-content {
+      width: calc(50% - 30px);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 20px 24px;
+      transition: var(--transition);
+    }
+
+    .timeline-content:hover {
+      border-color: rgba(245,166,35,0.2);
+      transform: translateY(-3px);
+    }
+
+    .timeline-year {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .timeline-content h4 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .timeline-content p {
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 900px) {
+      .story-grid { grid-template-columns: 1fr; }
+      .story-imgs { height: 300px; }
+      .story-img-main { width: 80%; height: 280px; }
+      .story-img-secondary { width: 50%; height: 180px; }
+      .team-grid { grid-template-columns: repeat(2, 1fr); }
+      .values-grid { grid-template-columns: 1fr 1fr; }
+      .timeline::before { left: 20px; }
+      .timeline-item, .timeline-item:nth-child(even) { flex-direction: column; padding-left: 50px; }
+      .timeline-dot { left: 20px; }
+      .timeline-content { width: 100%; }
+    }
+
+    @media (max-width: 600px) {
+      .team-grid { grid-template-columns: 1fr 1fr; }
+      .values-grid { grid-template-columns: 1fr; }
+      .about-hero-stats { gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-logo">✈ Travel<span>Blog</span></div>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="2nd page.html">Destinations</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="reviews.html">Reviews</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="1st page.html" class="nav-btn">Login</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="about-hero">
+    <div class="about-hero-inner animate-fadeInUp">
+      <div class="section-badge">Our Story</div>
+      <h1>We Are <em>Passionate</em> Travelers</h1>
+      <p>Born from a love of exploring India, TravelBlog has been connecting adventurous souls with the country's most breathtaking destinations for over two decades.</p>
+      <div class="about-hero-stats">
+        <div class="astat">
+          <span class="astat-number" data-count="28">0</span>
+          <span class="astat-label">Years Experience</span>
+        </div>
+        <div class="astat">
+          <span class="astat-number" data-count="8000">0</span>
+          <span class="astat-label">Happy Travelers</span>
+        </div>
+        <div class="astat">
+          <span class="astat-number" data-count="500">0</span>
+          <span class="astat-label">Destinations</span>
+        </div>
+        <div class="astat">
+          <span class="astat-number" data-count="98">0</span>
+          <span class="astat-label">Satisfaction Rate %</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Story -->
+  <section class="story-section">
+    <div class="story-grid">
+      <div class="story-imgs reveal">
+        <img class="story-img-main" src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=700&q=80" alt="India travel">
+        <img class="story-img-secondary" src="https://images.unsplash.com/photo-1587135941948-670b381f08ce?w=500&q=80" alt="Travel experience">
+        <div class="story-years">
+          <span class="num">28+</span>
+          <span class="txt">Years of<br>Excellence</span>
+        </div>
+      </div>
+      <div class="story-text reveal delay-3">
+        <div class="section-badge">How It Began</div>
+        <h2>A Journey Born from <em style="font-style:italic;color:var(--accent);">Passion</em></h2>
+        <p>TravelBlog was founded in 1996 by two passionate explorers who fell in love with India's incredible diversity. What started as a personal travel journal quickly grew into India's most trusted travel platform.</p>
+        <p>We believe travel is more than visiting places — it's about connecting with cultures, creating bonds with locals, and returning home forever changed. Every tour we design carries this philosophy at its heart.</p>
+        <p>Today, our network of 8,000+ local guides and travel experts ensures every journey is authentic, safe, and unforgettable. From the snow-covered Himalayas to the sun-drenched beaches of Goa — we take you everywhere India's heart beats loudest.</p>
+        <div style="display:flex; gap:14px; margin-top:28px; flex-wrap:wrap;">
+          <a href="2nd page.html" class="btn-primary"><i class="fas fa-compass"></i> Explore Tours</a>
+          <a href="contact.html" class="btn-secondary"><i class="fas fa-phone"></i> Talk to Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="values-section">
+    <div style="text-align:center; margin-bottom:10px;">
+      <div class="section-badge">Our Philosophy</div>
+      <h2 class="section-title">What We Stand For</h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card reveal">
+        <span class="value-icon">🌍</span>
+        <h3>Authentic Experiences</h3>
+        <p>We curate tours that go beyond tourist traps — connecting you with real India, real people, and genuine cultural immersion.</p>
+      </div>
+      <div class="value-card reveal delay-2">
+        <span class="value-icon">🛡️</span>
+        <h3>Safety First</h3>
+        <p>Every tour is meticulously planned with safety protocols. Our guides are certified and emergency support is always available.</p>
+      </div>
+      <div class="value-card reveal delay-4">
+        <span class="value-icon">🌱</span>
+        <h3>Responsible Tourism</h3>
+        <p>We're committed to eco-friendly travel practices that preserve India's natural wonders for future generations.</p>
+      </div>
+      <div class="value-card reveal">
+        <span class="value-icon">💎</span>
+        <h3>Premium Quality</h3>
+        <p>From luxury resorts to boutique homestays — we partner only with the finest accommodations and service providers.</p>
+      </div>
+      <div class="value-card reveal delay-2">
+        <span class="value-icon">🤝</span>
+        <h3>Community Impact</h3>
+        <p>We actively support local artisans, guides, and communities — ensuring tourism brings real benefits to local populations.</p>
+      </div>
+      <div class="value-card reveal delay-4">
+        <span class="value-icon">❤️</span>
+        <h3>Passionate Service</h3>
+        <p>Our team genuinely loves travel and India. That passion translates into extraordinary attention to detail in every itinerary.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="team-section">
+    <div style="text-align:center; margin-bottom:10px;">
+      <div class="section-badge">Our People</div>
+      <h2 class="section-title">Meet the Team</h2>
+      <p class="section-subtitle" style="margin:0 auto;">The passionate people behind your unforgettable India journeys</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card reveal">
+        <img class="team-img" src="https://randomuser.me/api/portraits/men/42.jpg" alt="Arjun Mehta">
+        <div class="team-info">
+          <div class="team-name">Arjun Mehta</div>
+          <div class="team-role">Founder & CEO</div>
+          <div class="team-social">
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="team-card reveal delay-2">
+        <img class="team-img" src="https://randomuser.me/api/portraits/women/52.jpg" alt="Priya Nair">
+        <div class="team-info">
+          <div class="team-name">Priya Nair</div>
+          <div class="team-role">Head of Operations</div>
+          <div class="team-social">
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="team-card reveal delay-3">
+        <img class="team-img" src="https://randomuser.me/api/portraits/men/61.jpg" alt="Raj Verma">
+        <div class="team-info">
+          <div class="team-name">Raj Verma</div>
+          <div class="team-role">Lead Travel Curator</div>
+          <div class="team-social">
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="team-card reveal delay-4">
+        <img class="team-img" src="https://randomuser.me/api/portraits/women/36.jpg" alt="Anaya Singh">
+        <div class="team-info">
+          <div class="team-name">Anaya Singh</div>
+          <div class="team-role">Customer Experience</div>
+          <div class="team-social">
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="timeline-section" style="background: var(--bg-card);">
+    <div style="text-align:center; margin-bottom:10px;">
+      <div class="section-badge">Our Journey</div>
+      <h2 class="section-title">How Far We've Come</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-year">1996</div>
+          <h4>The Beginning</h4>
+          <p>TravelBlog launched as a personal travel journal by founders Arjun & Kavya Mehta</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-year">2003</div>
+          <h4>First 1,000 Travelers</h4>
+          <p>Reached our first milestone with a community of 1,000 verified travelers</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-year">2010</div>
+          <h4>Online Booking Launch</h4>
+          <p>Introduced seamless online booking — transforming how Indians plan trips</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-year">2018</div>
+          <h4>8,000+ Guide Network</h4>
+          <p>Built India's largest verified local guide network across all 28 states</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-year">2024</div>
+          <h4>AI-Powered Planning</h4>
+          <p>Launched AI itinerary planner helping travelers design perfect custom trips</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo">✈ Travel<span>Blog</span></div>
+        <p>Your gateway to discovering the incredible beauty and culture of India.</p>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="2nd page.html">Destinations</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="reviews.html">Reviews</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Partners</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Refund Policy</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 TravelBlog India. All rights reserved.</p>
+      <p>Made with ❤️ for travel lovers</p>
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50));
+    document.getElementById('hamburger').addEventListener('click', () => document.getElementById('navMenu').classList.toggle('open'));
+
+    const reveals = document.querySelectorAll('.reveal');
+    new IntersectionObserver((e) => e.forEach(el => { if (el.isIntersecting) el.target.classList.add('visible'); }), { threshold: 0.1 }).observe
+    ? (() => {
+      const obs = new IntersectionObserver((e) => e.forEach(el => { if (el.isIntersecting) el.target.classList.add('visible'); }), { threshold: 0.1 });
+      reveals.forEach(r => obs.observe(r));
+    })() : reveals.forEach(r => r.classList.add('visible'));
+
+    const counters = document.querySelectorAll('[data-count]');
+    const cObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = +el.dataset.count;
+          let current = 0;
+          const step = target / 60;
+          const timer = setInterval(() => {
+            current += step;
+            if (current >= target) { el.textContent = target + '+'; clearInterval(timer); }
+            else el.textContent = Math.floor(current) + '+';
+          }, 30);
+          cObs.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(c => cObs.observe(c));
+  </script>
+</body>
+</html>
